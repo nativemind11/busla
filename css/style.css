@@ -108,6 +108,7 @@ img { max-width: 100%; display: block; }
   justify-content: space-between;
   gap: 20px;
   flex-wrap: wrap; /* لو مساحة الشاشة مش كافية، الشعار وأزرار الحساب ينزلوا صف تاني بدل ما نصهم يتقطع */
+  position: relative;
 }
 .logo {
   display: inline-flex;
@@ -124,6 +125,12 @@ img { max-width: 100%; display: block; }
 .nav-links { display: flex; gap: 28px; font-weight: 600; color: var(--gray); }
 .nav-links a:hover { color: var(--accent-text); }
 .nav-right { display: flex; align-items: center; gap: 12px; }
+.nav-toggle-btn {
+  display: none; align-items: center; justify-content: center;
+  width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+  background: var(--soft-bg); border: 1.5px solid var(--line);
+  color: var(--accent-text); cursor: pointer; font-size: 15px;
+}
 .nav-auth { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
 
 /* ===== Theme toggle (الوضع الليلي) ===== */
@@ -541,14 +548,19 @@ th { color: var(--gray); font-weight: 700; background: var(--soft-bg); }
 @media (max-width: 768px) {
   .nav-wrap { padding: 12px 16px; gap: 8px; flex-wrap: nowrap; }
   .nav-right { order: 1; flex-shrink: 0; }
+  .nav-toggle-btn { display: inline-flex; }
   .nav-links {
-    order: 2; display: flex; flex-direction: row; align-items: center;
-    gap: 12px; font-size: 12px;
-    overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
-    white-space: nowrap; max-width: 26vw;
+    position: absolute; top: calc(100% + 6px); left: 16px;
+    display: flex; flex-direction: column; align-items: stretch;
+    width: 190px; gap: 2px;
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: 12px;
+    box-shadow: var(--shadow-lg); z-index: 60;
+    max-height: 0; overflow: hidden; opacity: 0; pointer-events: none; padding: 0 6px;
+    transition: max-height .2s ease, opacity .2s ease;
   }
-  .nav-links::-webkit-scrollbar { display: none; }
-  .nav-links a { flex-shrink: 0; }
+  .nav-links.nav-open { max-height: 220px; opacity: 1; pointer-events: auto; padding: 6px; }
+  .nav-links a { padding: 10px 8px; border-top: 1px solid var(--line); }
+  .nav-links a:first-child { border-top: none; }
   .hero h1 { font-size: 32px; }
   .grid-3, .grid-2 { grid-template-columns: 1fr; }
   .form-row { flex-direction: column; }

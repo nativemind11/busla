@@ -303,11 +303,35 @@ function renderHeader() {
           <a href="login/" class="btn btn-ghost">تسجيل الدخول</a>
           <a href="register-mentee/" class="btn btn-primary">ابدأ دلوقتي</a>
         </div>
+        <button type="button" class="nav-toggle-btn" id="nav-toggle-btn" aria-label="فتح القائمة" aria-expanded="false">
+          <i class="fa-solid fa-bars"></i>
+        </button>
       </div>
     </div>
   `;
   const themeBtn = document.getElementById("theme-toggle-btn");
   if (themeBtn) themeBtn.addEventListener("click", toggleTheme);
+  const navToggleBtn = document.getElementById("nav-toggle-btn");
+  const navLinksEl = document.getElementById("nav-links");
+  if (navToggleBtn && navLinksEl) {
+    navToggleBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isOpen = navLinksEl.classList.toggle("nav-open");
+      navToggleBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+    navLinksEl.querySelectorAll("a").forEach(a => {
+      a.addEventListener("click", () => {
+        navLinksEl.classList.remove("nav-open");
+        navToggleBtn.setAttribute("aria-expanded", "false");
+      });
+    });
+    document.addEventListener("click", (e) => {
+      if (!navLinksEl.classList.contains("nav-open")) return;
+      if (navLinksEl.contains(e.target) || navToggleBtn.contains(e.target)) return;
+      navLinksEl.classList.remove("nav-open");
+      navToggleBtn.setAttribute("aria-expanded", "false");
+    });
+  }
   auth.onAuthStateChanged(user => {
     const navAuth = document.getElementById("nav-auth");
     if (user && navAuth) {
