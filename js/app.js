@@ -296,9 +296,6 @@ function renderHeader() {
         <a href="contact/">تواصل معنا</a>
       </nav>
       <div class="nav-right">
-        <button type="button" class="nav-toggle-btn" id="nav-toggle-btn" aria-label="فتح القائمة" aria-expanded="false">
-          <i class="fa-solid fa-bars"></i>
-        </button>
         <div class="nav-auth" id="nav-auth">
           <button type="button" class="theme-toggle-btn" id="theme-toggle-btn" title="بدّل الوضع الليلي/النهاري" aria-label="بدّل الوضع الليلي/النهاري">
             <span class="theme-icon-sun">☀️</span><span class="theme-icon-moon">🌙</span>
@@ -311,20 +308,6 @@ function renderHeader() {
   `;
   const themeBtn = document.getElementById("theme-toggle-btn");
   if (themeBtn) themeBtn.addEventListener("click", toggleTheme);
-  const navToggleBtn = document.getElementById("nav-toggle-btn");
-  const navLinksEl = document.getElementById("nav-links");
-  if (navToggleBtn && navLinksEl) {
-    navToggleBtn.addEventListener("click", () => {
-      const isOpen = navLinksEl.classList.toggle("nav-open");
-      navToggleBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
-    });
-    navLinksEl.querySelectorAll("a").forEach(a => {
-      a.addEventListener("click", () => {
-        navLinksEl.classList.remove("nav-open");
-        navToggleBtn.setAttribute("aria-expanded", "false");
-      });
-    });
-  }
   auth.onAuthStateChanged(user => {
     const navAuth = document.getElementById("nav-auth");
     if (user && navAuth) {
